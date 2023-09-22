@@ -1,0 +1,11 @@
+1)openssl genrsa -des3 -out CA.key 2048
+
+2)openssl req -x509 -new -key CA.key -days 700 -sha256 -out CA.crt
+
+3)openssl genrsa -out LAB.KEY 2048
+
+4)openssl req -new -key LAB.key -out LAB.csr -sha256 -config LAB.cfg
+
+5)openssl x509 -req -in LAB.csr -CA CA.crt -CAkey CA.key -CAcreateserial -out LAB.crt -days 365 -sha256 -extensions v3_req -extfile LAB.cfg
+
+6)mmc -> добавить CA.crt
