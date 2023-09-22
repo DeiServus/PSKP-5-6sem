@@ -1,0 +1,90 @@
+<div>
+    <form action="/client" method="post">
+    <input type="text" name="n1" id="name1" placeholder="name">
+    <input type="text" name="e1" id="email1" placeholder="email">
+    <input type="text" name="p1" id="password1" placeholder="password">
+    <button type="submit">Add</button>
+    </form>
+</div>
+<div>
+    <input type="text" placeholder="id" id="client_id">
+    <input type="text" placeholder="name" id="name">
+    <input type="text" placeholder="email" id="email">
+    <input type="text" placeholder="password" id="password">
+    <button onclick="Update()">Update</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="clientDelete">
+    <button onclick="Delete()">Delete</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="clientGetById">
+    <button onclick="GetById()">GetById</button>
+</div>
+<div id="getById">
+</div>
+<table border="1px solid black">
+    <tr><th>id</th><th>name</th><th>email</th><th>password</th></tr>
+    {{#each data}}
+        <tr><td>{{id}}</td><td>{{name}}</td><td>{{email}}</td><td>{{password}}</td></tr>
+    {{/each}}
+</table>
+<script>
+    /*function Add() {
+        let name = document.getElementById('name1');
+        let email = document.getElementById('email1');
+        let password = document.getElementById('password1');
+        fetch(`http://localhost:3000/client`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                    {
+                        name: name.value,
+                        email: email.value,
+                        password: password.value
+                    }
+            )
+        }).then(window.location.reload()).then(window.location.reload()).then(window.location.reload()).then(window.location.reload())
+    }*/
+    function Update() {
+        let id = document.getElementById('client_id');
+        let name = document.getElementById('name');
+        let email = document.getElementById('email');
+        let password = document.getElementById('password');
+        fetch(`http://localhost:3000/client`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                    {
+                        id: id.value,
+                        name: name.value,
+                        email: email.value,
+                        password: password.value
+                    }
+            )
+        }).then(window.location.reload()).then(window.location.reload())
+    }
+
+    function Delete() {
+        let id = document.getElementById('clientDelete');
+
+        fetch(`http://localhost:3000/client/${id.value}`, {
+            method: 'DELETE'
+        }).then(window.location.reload()).then(window.location.reload());
+    }
+
+    function GetById() {
+        let id = document.getElementById('clientGetById');
+
+        fetch(`http://localhost:3000/client/${id.value}`, {
+            method: 'GET'
+        }).then(res => res.json()).then(result => {
+            let gbd = document.getElementById('getById');
+            if(result) {
+                gbd.innerHTML = `found: ${result.id} ${result.name} ${result.email} ${result.password}`;
+            } else {
+                gbd.innerHTML = 'Not found';
+            }
+        })
+    }
+</script>

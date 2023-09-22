@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pulpits</title>
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16pt;
+        }
+        ul li {
+            display: inline-block;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body onload="load()">
+    <b id="error" style="color: red"></b>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Кафедра</th>
+                    <th>Название</th>
+                    <th>Факультет</th>
+                    <th>Учителя</th>
+                </tr>
+            </thead>
+            <tbody id="table"></tbody>
+        </table>
+    </div>
+    <ul id="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <script>
+        function load() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `http://localhost:3000/api/pagescount`, true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            xhr.send();
+
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    document.getElementById('error').innerText = '';
+                    let pages = document.getElementById("list");
+                    pages.innerHTML = '';
+                    let pulpits = Math.ceil(parseInt(JSON.parse(xhr.response).count) / 10);
+                    console.log(pulpits);
+                    for (let i = 1; i <= pulpits; i++) {
+                        pages.innerHTML +=
+                            `<li><button onclick="getPulpits(${i})">${i}</button></li>`;
+                        
+                    };
+                } else {
+                    document.getElementById('error').innerText = xhr.responseText;
+                }
+            }
+        }
+
+        function getPulpits(page) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `http://localhost:3000/api/pages?page=${page}`, true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            xhr.send();
+
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    document.getElementById('error').innerText = '';
+                    let table = document.getElementById("table");
+                    table.innerHTML = '';
+                    JSON.parse(xhr.response).forEach(element => {
+                        table.innerHTML +=
+                            `<tr>
+                                <td>${element.PULPIT}</td>
+                                <td>${element.PULPIT_NAME}</td>
+                                <td>${element.FACULTY}</td>
+                                <td>${element._count.TEACHER_TEACHER_PULPITToPULPIT}</td>
+                            </tr>`
+                    });
+                } else {
+                    document.getElementById('error').innerText = xhr.responseText;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

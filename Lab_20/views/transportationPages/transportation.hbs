@@ -1,0 +1,131 @@
+<div>
+    <input type="text" id="cargo_id1" placeholder="cargo_id">
+    <input type="text" id="transport_id1" placeholder="transport_id">
+    <input type="text" id="client_id1" placeholder="client_id">
+    <input type="text" id="fromCity1" placeholder="fromCity">
+    <input type="text" id="toCity1" placeholder="toCity">
+    <input type="text" id="price1" placeholder="price">
+    <input type="text" id="start_date1" placeholder="start_date">
+    <input type="text" id="end_date1" placeholder="end_date">
+    <button onclick="Add()">Add</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id2">
+    <input type="text" id="cargo_id2" placeholder="cargo_id">
+    <input type="text" id="transport_id2" placeholder="transport_id">
+    <input type="text" id="client_id2" placeholder="client_id">
+    <input type="text" id="fromCity2" placeholder="fromCity">
+    <input type="text" id="toCity2" placeholder="toCity">
+    <input type="text" id="price2" placeholder="price">
+    <input type="text" id="start_date2" placeholder="start_date">
+    <input type="text" id="end_date2" placeholder="end_date">
+    <button onclick="Update()">Update</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id3">
+    <button onclick="Delete()">Delete</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id4">
+    <button onclick="GetById()">GetById</button>
+</div>
+<div id="getById">
+</div>
+<table border="1px solid black" width="1000px">
+    <tr>
+        <th>id</th>
+        <th>from City</th>
+        <th>to City</th>
+        <th>price</th></tr>
+        <!--<th>start date</th>
+        <th>end date</th>-->
+    </tr>
+    {{#each data}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{fromCity}}</td>
+            <td>{{toCity}}</td>
+            <td>{{price}}</td></tr>
+            <!--<td>{{start_date}}</td>
+            <td>{{end_date}}</td>-->
+    {{/each}}
+</table>
+<script>
+    function Add() {
+        let cargo_id = document.getElementById('cargo_id1');
+        let transport_id = document.getElementById('transport_id1');
+        let client_id = document.getElementById('client_id1');
+        let fromCity = document.getElementById('fromCity1');
+        let toCity = document.getElementById('toCity1');
+        let price = document.getElementById('price1');
+        let start_date = document.getElementById('start_date1');
+        let end_date = document.getElementById('end_date1');
+        fetch(`http://localhost:3000/transportation`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                    {
+                        cargo_id: +cargo_id.value,
+                        transport_id: +transport_id.value,
+                        client_id: +client_id.value,
+                        fromCity: fromCity.value,
+                        toCity: toCity.value,
+                        price: parseFloat(price.value),
+                        start_date: start_date.value.toDateString,
+                        end_date: end_date.value.toDateString
+                    }
+            )
+        }).then(window.location.reload()).then(window.location.reload())
+    }
+    function Update() {
+        let id = document.getElementById('id2');
+        let cargo_id = document.getElementById('cargo_id2');
+        let transport_id = document.getElementById('transport_id2');
+        let client_id = document.getElementById('client_id2');
+        let fromCity = document.getElementById('fromCity2');
+        let toCity = document.getElementById('toCity2');
+        let price = document.getElementById('price2');
+        let start_date = document.getElementById('start_date2');
+        let end_date = document.getElementById('end_date2');
+        fetch(`http://localhost:3000/transportation`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                    {
+                        id: +id.value,
+                        cargo_id: +cargo_id.value,
+                        transport_id: +transport_id.value,
+                        client_id: +client_id.value,
+                        fromCity: fromCity.value,
+                        toCity: toCity.value,
+                        price: parseFloat(price.value),
+                        start_date: start_date.value.toDateString,
+                        end_date: end_date.value.toDateString
+                    }
+            )
+        }).then(window.location.reload())
+    }
+
+    function Delete() {
+        let id = document.getElementById('id3');
+
+        fetch(`http://localhost:3000/transportation/${id.value}`, {
+            method: 'DELETE'
+        }).then(window.location.reload()).then(window.location.reload());
+    }
+
+    function GetById() {
+        let id = document.getElementById('id4');
+
+        fetch(`http://localhost:3000/transportation/${id.value}`, {
+            method: 'GET'
+        }).then(res => res.json()).then(result => {
+            let gbd = document.getElementById('getById');
+            if(result) {
+                gbd.innerHTML = `found: ${result.id} ${result.fromCity} ${result.toCity} ${result.price} ${result.start_date} ${result.end_date}`;
+            } else {
+                gbd.innerHTML = 'Not found';
+            }
+        })
+    }
+</script>

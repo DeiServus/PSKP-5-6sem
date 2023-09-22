@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "graphql": "^15.8.0",
+    "msnodesqlv8": "^3.0.1",
+    "mssql": "^9.0.1"
+  }
+}

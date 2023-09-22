@@ -1,0 +1,88 @@
+<div>
+    <input type="text" id="title1" placeholder="title">
+    <input type="text" id="volume1" placeholder="volume">
+    <input type="text" id="weight1" placeholder="weight">
+    <button onclick="Add()">Add</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id2">
+    <input type="text" id="title2" placeholder="title">
+    <input type="text" id="volume2" placeholder="volume">
+    <input type="text" id="weight2" placeholder="weight">
+    <button onclick="Update()">Update</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id3">
+    <button onclick="Delete()">Delete</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id4">
+    <button onclick="GetById()">GetById</button>
+</div>
+<div id="getById">
+</div>
+<table border="1px solid black">
+    <tr><th>id</th><th>title</th><th>volume</th><th>weight</th></tr>
+    {{#each data}}
+        <tr><td>{{id}}</td><td>{{title}}</td><td>{{volume}}</td><td>{{weight}}</td></tr>
+    {{/each}}
+</table>
+<script>
+    function Add() {
+        let title = document.getElementById('title1');
+        let volume = document.getElementById('volume1');
+        let weight = document.getElementById('weight1');
+        fetch(`http://localhost:3000/cargo`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                    {
+                        title: title.value,
+                        volume: parseFloat(volume.value),
+                        weight: parseFloat(weight.value)
+                    }
+            )
+        }).then(window.location.reload()).then(window.location.reload())
+    }
+    function Update() {
+        let id = document.getElementById('id2');
+        let title = document.getElementById('title2');
+        let volume = document.getElementById('volume2');
+        let weight = document.getElementById('weight2');
+        fetch(`http://localhost:3000/cargo`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                    {
+                        id: id.value,
+                        title: title.value,
+                        volume: parseFloat(volume.value),
+                        weight: parseFloat(weight.value)
+                    }
+            )
+        }).then(window.location.reload()).then(window.location.reload())
+    }
+
+    function Delete() {
+        let id = document.getElementById('id3');
+
+        fetch(`http://localhost:3000/cargo/${id.value}`, {
+            method: 'DELETE'
+        }).then(window.location.reload());
+    }
+
+    function GetById() {
+        let id = document.getElementById('id4');
+
+        fetch(`http://localhost:3000/cargo/${id.value}`, {
+            method: 'GET'
+        }).then(res => res.json()).then(result => {
+            let gbd = document.getElementById('getById');
+            if(result) {
+                gbd.innerHTML = `found: ${result.id} ${result.title} ${result.volume} ${result.weight}`;
+            } else {
+                gbd.innerHTML = 'Not found';
+            }
+        })
+    }
+</script>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Lab 14</title>
+</head>
+
+<body>
+    <div>
+        <div id="get_res"></div>
+        <button onclick="Get()">GET</button>
+    </div>
+
+
+    <div>
+            <label for="code">Код учителя:</label>
+            <input type="text" id="code"><br>
+            <label for="name">ФИО:</label>
+            <input type="text" id="name"><br>
+            <label for="faculty">Кафедра:</label>
+            <input type="text" id="faculty"><br>
+            <button onclick="Post()">Добавить</button>
+    </div>
+
+    <div>
+
+            <label for="code2">Код учителя:</label>
+            <input type="text" id="code2"><br>
+            <label for="name2">ФИО:</label>
+            <input type="text" id="name2"><br>
+            <label for="faculty2">Кафедра:</label>
+            <input type="text" id="faculty2"><br>
+            <button onclick="Put()">Изменить</button>
+    </div>
+    <div>
+            <label for="code3">Код учителя:</label>
+            <input type="text" id="code3">
+            <button onclick="Delete()"><span>Удалить</span></button>
+    </div>
+    
+    <script>
+
+        async function Get() {
+            console.log('GET');
+            fetch('http://localhost:3000/api/teachers', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            }).then(response => { return response.json(); })
+                .then((pdata) => {
+                    console.log('GET.pdata', pdata);
+                    let get_res = document.getElementById('get_res');
+                    get_res.innerHTML = '';
+                    let i = 0
+                    pdata.forEach(el => {
+                        get_res.innerHTML += (`${++i}. ` + el.teacher + '||' + el.teacher_name + '||' + el.pulpit + '</br>')
+                    });
+                })
+        }
+
+
+        function Post() {
+            let code = document.getElementById("code");
+            let name = document.getElementById("name");
+            let faculty = document.getElementById("faculty");
+            let errElem = document.getElementById("app_error");
+
+            if(code.value!=''||name.value!=''||faculty.value!=''){
+                let xhr = new XMLHttpRequest();
+                xhr.open('POST', `http://localhost:3000/api/teachers`, true);
+                xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+                xhr.send(JSON.stringify({
+                    teacher: code.value,
+                    teacher_name: name.value,
+                    pulpit: faculty.value
+                }));
+
+                xhr.onload = () => {
+                    if (xhr.status == 200) {
+                        Get();
+                    } else {
+                        alert(xhr.responseText);
+                    }
+                }
+            } else {
+                alert('params?')
+            }
+        }
+
+        function Put() {
+            let code = document.getElementById("code2");
+            let name = document.getElementById("name2");
+            let faculty = document.getElementById("faculty2");
+
+            if(code.value!=''||name.value!=''||faculty.value!=''){
+                let xhr = new XMLHttpRequest();
+                xhr.open('PUT', `http://localhost:3000/api/teachers`, true);
+                xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+                xhr.send(JSON.stringify({
+                    teacher: code.value,
+                    teacher_name: name.value,
+                    pulpit: faculty.value
+                }));
+
+                xhr.onload = () => {
+                    if (xhr.status == 200) {
+                        Get();
+                    } else {
+                        alert(xhr.responseText);
+                    }
+                }
+            } else {
+                alert('params?');
+            }
+        }
+
+        function Delete() {
+            let code = document.getElementById('code3');
+
+            if(code.value!=''){
+                let xhr = new XMLHttpRequest();
+                xhr.open('DELETE', `http://localhost:3000/api/teachers/${code.value}`, true);
+                xhr.send();
+
+                xhr.onload = () => {
+                    if (xhr.status == 200) {
+                        Get();
+                    } else {
+                        alert(xhr.responseText);
+                    }
+                };
+            } else {
+                alert('params?')
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<div>
+    <input type="text" id="name1" placeholder="name">
+    <input type="text" id="exp1" placeholder="exp">
+    <input type="text" id="transport1" placeholder="transport">
+    <button onclick="Add()">Add</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id2">
+    <input type="text" id="name2" placeholder="name">
+    <input type="text" id="exp2" placeholder="exp">
+    <input type="text" id="transport2" placeholder="transport">
+    <button onclick="Update()">Update</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id3">
+    <button onclick="Delete()">Delete</button>
+</div>
+<div>
+    <input type="text" placeholder="id" id="id4">
+    <button onclick="GetById()">GetById</button>
+</div>
+<div id="getById">
+</div>
+<table border="1px solid black">
+    <tr><th>id</th><th>name</th><th>exp</th><th>transportation</th></tr>
+    {{#each data}}
+        <tr><td>{{id}}</td><td>{{name}}</td><td>{{exper}}</td><td>{{transportation_id}}</td></tr>
+    {{/each}}
+</table>
+<script>
+    function Add() {
+        let name = document.getElementById('name1');
+        let exper = document.getElementById('exp1');
+        let tr = document.getElementById('transport1');
+        fetch(`http://localhost:3000/driver`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                {
+                    name: name.value,
+                    exper: exper.value,
+                    transportation_id: +tr.value
+                }
+            )
+        }).then(window.location.reload()).then(window.location.reload())
+    }
+    function Update() {
+        let id = document.getElementById('id2');
+        let name = document.getElementById('name2');
+        let exper = document.getElementById('exp2');
+        let tr = document.getElementById('transport2');
+        fetch(`http://localhost:3000/driver`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                    {
+                        id: +id.value,
+                        name: name.value,
+                        exper: exper.value,
+                        transportation_id: +tr.value
+                    }
+            )
+        }).then(window.location.reload())
+    }
+
+    function Delete() {
+        let id = document.getElementById('id3');
+
+        fetch(`http://localhost:3000/driver/${id.value}`, {
+            method: 'DELETE'
+        }).then(window.location.reload()).then(window.location.reload());
+    }
+
+    function GetById() {
+        let id = document.getElementById('id4');
+
+        fetch(`http://localhost:3000/driver/${id.value}`, {
+            method: 'GET'
+        }).then(res => res.json()).then(result => {
+            let gbd = document.getElementById('getById');
+            if(result) {
+                gbd.innerHTML = `found: ${result.id} ${result.name} ${result.exper} ${result.transportation_id}`;
+            } else {
+                gbd.innerHTML = 'Not found';
+            }
+        })
+    }
+</script>

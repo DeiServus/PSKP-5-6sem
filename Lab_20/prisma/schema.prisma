@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model cargo {
+  id             Int             @id(map: "PK__cargo__3213E83FDC063A4B") @default(autoincrement())
+  title          String          @db.NChar(100)
+  volume         Float
+  weight         Float
+  transportation transportation?
+}
+
+model client {
+  id             Int              @id(map: "PK__client__3213E83FA4D39CDC") @default(autoincrement())
+  name           String           @db.NChar(50)
+  email          String           @db.NVarChar(100)
+  password       String           @db.NChar(100)
+  transportation transportation[]
+}
+
+model driver {
+  id                Int            @id(map: "PK__driver__3213E83F3DAC12A7") @default(autoincrement())
+  name              String         @db.NChar(50)
+  transportation_id Int
+  exper             String         @db.NChar(10)
+  transportation    transportation @relation(fields: [transportation_id], references: [id], onUpdate: NoAction, map: "FK_driver_transportation")
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B61FBCBB660") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
+}
+
+model transport {
+  id             Int              @id(map: "PK__transpor__3213E83F1F7F451D") @default(autoincrement())
+  load_capacity  Float
+  volume         Float
+  model          String           @db.NChar(100)
+  number         String           @unique(map: "UQ__transpor__FD291E41A3AD0606") @db.NChar(8)
+  transportation transportation[]
+}
+
+model transportation {
+  id           Int       @id(map: "PK__transpor__3213E83FE3A71940") @default(autoincrement())
+  cargo_id     Int       @unique(map: "UQ__transpor__982828C5BA78B921")
+  transport_id Int
+  client_id    Int
+  fromCity     String    @db.NChar(25)
+  toCity       String    @db.NChar(25)
+  price        Float     @default(0, map: "DF__transport__price__46E78A0C") @db.Money
+  start_date   DateTime? @db.DateTime
+  end_date     DateTime? @db.DateTime
+  driver       driver[]
+  cargo        cargo     @relation(fields: [cargo_id], references: [id], onUpdate: NoAction, map: "FK_transportation_cargo")
+  client       client    @relation(fields: [client_id], references: [id], onUpdate: NoAction, map: "FK_transportation_client")
+  transport    transport @relation(fields: [transport_id], references: [id], onUpdate: NoAction, map: "FK_transportation_transport")
+}
