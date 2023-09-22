@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <h1>Часть разметки</h1>
+        <h1 id="fio"></h1>
+        <script>
+            fetch('http://localhost:5000/api/name')
+            .then(response => response.text())
+            .then(responseText => document.getElementById('fio').innerHTML = responseText );
+        </script>
+    </body>
+</html>

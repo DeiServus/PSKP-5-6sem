@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script></head>
+    <body>
+        <h2>Часть разметки</h2>
+        <h1 id="fio"></h1>
+        <script>
+            $.ajax({
+                url: '/api/name',
+                method: 'Get',
+                success: (data) => {
+                    $('#fio').html(data);}
+            });
+        </script>
+    </body>
+</html>
