@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Lab 14</title>
+</head>
+
+<body>
+    <div style="color: darkred;" id="app_error"></div>
+    <div>
+        <div id="get_res"></div>
+        <button onclick="Get()">GET</button>
+    </div>
+
+
+    <div>
+        <form>
+            <label for="code">Код кафедры:</label>
+            <input type="text" id="code"><br>
+            <label for="name">Название:</label>
+            <input type="text" id="name"><br>
+            <label for="faculty">Факультет:</label>
+            <input type="text" id="faculty"><br>
+            <button onclick="Post()">Добавить</button>
+        </form>
+    </div>
+
+    <div>
+
+        <form>
+            <label for="code2">Код кафедры:</label>
+            <input type="text" id="code2"><br>
+            <label for="name2">Название:</label>
+            <input type="text" id="name2"><br>
+            <label for="faculty2">Факультет:</label>
+            <input type="text" id="faculty2"><br>
+            <button onclick="Put()">Изменить</button>
+        </form>
+    </div>
+    <div>
+
+        <form>
+            <label for="code3">Код кафедры:</label>
+            <input type="text" id="code3">
+            <button onclick="Delete()"><span>Удалить</span></button>
+        </form>
+    </div>
+    
+    <script>
+
+        async function Get() {
+            console.log('GET');
+            fetch('http://localhost:3000/api/pulpits', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            }).then(response => { return response.json(); })
+                .then((pdata) => {
+                    console.log('GET.pdata', pdata);
+                    let get_res = document.getElementById('get_res');
+                    get_res.innerHTML = '';
+                    let i = 0
+                    pdata.forEach(el => {
+                        get_res.innerHTML += (`${++i}. ` + el.PULPIT + '||' + el.PULPIT_NAME + '||' + el.FACULTY + '</br>')
+                    });
+                })
+        }
+
+
+        function Post() {
+            let code = document.getElementById("code");
+            let name = document.getElementById("name");
+            let faculty = document.getElementById("faculty");
+            let errElem = document.getElementById("app_error");
+            fetch('http://localhost:3000/api/pulpits', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ PULPIT: code.value, PULPIT_NAME: name.value, FACULTY: faculty.value })
+            }).then(response => { return response.json(); })
+                .then((pdate) => {
+                    console.log('POST.pdate', pdate);
+                    if (typeof(pdate.originalError) != 'undefined' && pdate.originalError != null) {
+                        alert(pdate.originalError.info.message);}
+                });
+        }
+
+        function Put() {
+            let code = document.getElementById("code2");
+            let name = document.getElementById("name2");
+            let faculty = document.getElementById("faculty2");
+            let errElem = document.getElementById("app_error");
+            fetch(`http://localhost:3000/api/pulpits`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ PULPIT: code.value, PULPIT_NAME: name.value, FACULTY: faculty.value })
+            })
+                .then(response => { return response.json(); })
+                .then(pdate => {
+                        console.log('PUT.pdate', pdate);
+                        if (typeof(pdate.originalError) != 'undefined' && pdate.originalError != null) {
+                            alert(pdate.originalError.info.message);}
+                });
+        }
+
+        function Delete() {
+            let code = document.getElementById('code3');
+            let errElem = document.getElementById("app_error");
+            fetch(`http://localhost:3000/api/pulpits/${code.value}`, { method: 'DELETE' })
+                .then(response => { return response.json(); })
+                .then(pdate => {
+                        console.log('DELETE.pdate', pdate);
+                        if (typeof(pdate.originalError) != 'undefined' && pdate.originalError != null) {
+                            alert(pdate.originalError.info.message);}
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "lab-14",
+  "version": "1.0.0",
+  "description": "Lab-14",
+  "main": "14-01.js",
+  "scripts": {
+    "14-01": "node 14-01.js"
+  },
+  "keywords": [],
+  "author": "he-thinks",
+  "license": "ISC",
+  "dependencies": {
+    "mssql": "^9.1.1"
+  }
+}
