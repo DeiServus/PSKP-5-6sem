@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width"/>
+        <title>07-05</title>
+        <link rel="stylesheet" href="css/fff.css">
+        <script src="fff.js"></script>
+    </head>
+    <body>
+        <div>
+            <h1>07-05.html</h1>
+            <h2 class="forcss">Проверка CSS</h2>
+            <h2 id="result">Проверка JS</h2>
+            <script>result.innerHTML += " >> " + sum(3,2);</script>
+        </div>
+        <div>
+            <h1>Проверка mp4</h1>
+            <video src="fff.mp4" width="300" controls></video>
+        </div>
+        <div>
+            <h1>Проверка png</h1>
+            <image src="fff.png" width="300"></image>
+        </div>
+        <div>
+            <h1>Проверка docx</h1>
+            <a href="fff.docx">fff.docx</a>
+        </div>
+        <div>
+            <h1>Проверка html</h1>
+            <a href="fff.html">fff.html</fff></a>
+        </div>
+        <div>
+            <button onclick="Get1()">Проверка JSON</button>
+            <div id="json"></div>
+        </div>
+        <div>
+            <button onclick="Get2()">Проверка XML</button>
+            <div id="xml"></div>
+        </div>
+    </body>
+    <script>
+        function Get1() {
+            fetch("http://localhost:5000/fff.json", { method: "GET" })
+            .then(response => response.json())
+            .then(data => { document.getElementById("json").innerHTML = JSON.stringify(data, null, 2); });
+        }
+        function Get2(){
+            fetch("http://localhost:5000/fff.xml", { method: "GET" })
+            .then(response => response.text())
+            .then(data => { document.getElementById("xml").innerHTML = data; });
+        }   
+    </script>
+</html>

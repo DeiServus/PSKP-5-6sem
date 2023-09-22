@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PEOPLE>
+<MAN>
+<NAME>Tom<NAME/>
+<AGE>20</AGE>
+</MAN>
+<MAN>
+<NAME>Andrew<NAME/>
+<AGE>22</AGE>
+</MAN>
+<MAN>
+<NAME>Loise<NAME/>
+<AGE>21</AGE>
+</MAN>
+<MAN>
+<NAME>Margo<NAME/>
+<AGE>26</AGE>
+</MAN>
+</PEOPLE>
