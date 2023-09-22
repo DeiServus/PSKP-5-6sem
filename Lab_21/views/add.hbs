@@ -1,0 +1,16 @@
+<br>
+<div class="add">
+	<form action="/add" method="post" class="addForm">
+		<input type="text" name="contact" class="contact-input" placeholder="	Фамилия, имя, отчество			Телефон">
+		<input type="submit" id="add-btn" value="Добавить">
+	</form>
+	{{#if add}}
+		{{#deny}}
+		{{/deny}}
+	{{/if}}
+</div>
+<script>
+	document.querySelectorAll('.contact-btn').forEach(btn => {
+		btn.className = 'disabled';
+	});
+</script>

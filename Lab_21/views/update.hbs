@@ -1,0 +1,18 @@
+<br>
+<div class="update">
+	<form action="/update" method="post" class="updateForm">
+		<input type="hidden" name="oldContact" value="{{name}} {{phone}}">
+		<input type="text" class="contact-input" id="input" name="newContact" value="{{name}}			{{phone}}">                                                            
+		<input type="submit" id="update-btn" value="Изменить">
+	</form>
+	<form action="/delete" method="post" class="deleteForm">
+		<input type="hidden" name="contact" value="{{name}} {{phone}}">
+		<input type="submit" id="delete-btn-update" value="Удалить">
+	</form>
+	{{#if update}}
+	<form action="/" method="get" class="deny-btn-update">
+		<input type="submit" value="Отмена">
+	</form>
+	{{/if}}
+</div>
+<script type="text/javascript" src="/script.js"></script>

@@ -1,0 +1,114 @@
+input[type=text] {
+	border-radius: 0;
+	border: 1px solid rgb(84, 195, 242);
+}
+
+input {
+	box-sizing: border-box;
+} 
+
+.contacts {
+	height: 150pt;
+	overflow: scroll;
+	margin: auto;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 5px;
+	padding: 10pt 0;
+	border: 1px solid rgb(84, 195, 242);
+}
+
+.contact-btn {
+	display: inline-block;
+	padding: 3pt;
+	background-color: #a7eeee;
+	border: 1px solid rgb(84, 195, 242);
+	width: 90%;
+	text-align: left;
+	text-decoration: none;
+	color: black;
+}
+
+.add-btn-home {
+	display: block;
+	width: 50%;
+	margin-left: auto;
+    margin-right: auto;
+	background-color: #a7eeee;
+	border: 1px solid rgb(84, 195, 242);
+}
+
+.addForm > input, 
+.updateForm > input, 
+.deleteForm > input {
+	align-content: center;
+	width: 100%;
+}
+
+input[type=submit] {
+	background-color: #a7eeee;
+	margin-top: 10pt;
+	margin-bottom: 1pt;
+	border: 1px solid rgb(84, 195, 242);
+}
+
+.phone {
+	display: inline-block;
+	width: 50%;
+}
+
+.add > input[type=submit] {
+	float: left;
+	width: calc(100%/3);
+}
+
+
+.deny-btn-update > input {
+	float: left;
+}
+
+.update, .add {
+	width: 50%;
+	margin: auto;
+}
+
+#add-btn {
+	width: 45%;
+	float: left;
+}
+
+#deny-btn-add {
+	width: 100%;
+}
+
+#update-btn, #delete-btn-update {
+	width: calc(100%/3);
+	float: left;
+}
+
+.deny-btn-update {
+	float: right;
+}
+
+#deny-btn-add > input {
+	width: 45%;
+	float: right;
+}
+
+.contact-input {
+	background-color: #a7eeee;
+}
+
+a.disabled {
+	pointer-events: none;
+	display: inline-block;
+	padding: 3pt;
+	background-color: #dae6e6be;
+	border: 1px solid rgb(84, 195, 242);
+	width: 90%;
+	text-align: left;
+	text-decoration: none;
+	color: black;
+}
